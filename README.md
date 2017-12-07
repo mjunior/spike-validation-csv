@@ -1,11 +1,11 @@
 # README
 https://batchfiles.herokuapp.com/
 
-#Development
+### Development
 docker-compose build
 docker-compose up
 
 
-#TODO
+### TODO
 - Sidekiq
 - Bootstrap
