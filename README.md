@@ -2,8 +2,8 @@
 https://batchfiles.herokuapp.com/
 
 ### Development
-docker-compose build
-docker-compose up
+* docker-compose build
+* docker-compose up
 
 
 ### TODO
