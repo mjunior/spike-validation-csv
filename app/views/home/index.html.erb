@@ -1,0 +1,31 @@
+
+
+<h2>Usuários cadastrados <%= @total%></h2>
+
+<h2>Importar Usuários</h2>
+<%= form_tag home_batch_process_path,id: 'form_file', multipart: true do %>
+  <input type="file" name="file" id="files" multiple>
+  <input type="submit" id="submit-parse" value="Realizar verificação...">
+<% end %>
+
+<hr >
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Telefone</th>
+      <th>Cidade</th>
+      <th>Estado</th>
+      <th>Bairro</th>
+      <th>Complemento</th>
+      <th>Telefone</th>
+      <th>Celular</th>
+      <th>Identificador</th>
+    </tr>
+  </thead>
+
+  <tbody id="tbody_result_table">
+  </tbody>
+
+</table>
