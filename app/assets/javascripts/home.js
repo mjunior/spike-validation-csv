@@ -40,24 +40,24 @@ $(document).ready(function(){
 		//Checa se há mais que duas ocorrencias do identificador
 		if (!checkIdentifier(item['Identificador'])){
 			errors += 1;
-			item['Identificador'] = `<b style="color: red"> Duplicidade: ${item['Identificador']} </b>`
+			item['Identificador'] = "<b style=\"color: red\"> Duplicidade: "+item['Identificador']+"</b>"
 		}
 		return item
 	}
 
 	function buildHtml(item){
-		return `<tr>
-							<th>${item['Nome']} </th>
-							<th>${item['E-mail']}</th>
-							<th>${item['Telefone']}</th>
-							<th>${item['Cidade']}</th>
-							<th>${item['Estado']}</th>
-							<th>${item['Bairro']}</th>
-							<th>${item['Complemento']}</th>
-							<th>${item['Telefone']}</th>
-							<th>${item['Celular']}</th>
-							<th>${item['Identificador']}</th>
-						</tr>`
+		return "<tr>"+
+							"<th>"+item['Nome']+" </th>"+
+							"<th>"+item['E-mail']+"</th>"+
+							"<th>"+item['Telefone']+"</th>"+
+							"<th>"+item['Cidade']+"</th>"+
+							"<th>"+item['Estado']+"</th>"+
+							"<th>"+item['Bairro']+"</th>"+
+							"<th>"+item['Complemento']+"</th>"+
+							"<th>"+item['Telefone']+"</th>"+
+							"<th>"+item['Celular']+"</th>"+
+							"<th>"+item['Identificador']+"</th>"+
+						"</tr>"
 	}
 
 	function checkIdentifier(id){
