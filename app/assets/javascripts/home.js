@@ -2,39 +2,59 @@ $(document).ready(function(){
 	var lines = []
 	var errors = 0;
 	var verified = false;
+	var totalCommentHeader = 2
 
 	//Terminou
 	function completeFn() {
 		lines = arguments[0].data;
 		lines.splice(-1, 1)
-		lines.forEach(function(item){
+		lines.forEach(function(item, index){
+			if (index < totalCommentHeader)
+				return
+			item['Index'] = index + totalCommentHeader;
 			item = checkThisItem(item)
-			html = buildHtml(item)
-			$('#tbody_result_table').append(html);
+			if (item['Error']){
+				html = buildHtml(item)
+				$('#tbody_result_table').append(html);
+			}
 		});
 
-		if(errors > 0){
-			alert('*** Total de erros encontrados: '+errors+' ***\n *** Efetue a correção e envie planilha novamente**')
+		if (errors > 0) {
+			html = '<div class="alert alert-danger">' +
+				'<strong>' + errors + '</strong> Errors encontrados. Faça correção antes de prosseguir' +
+				'</div>'
+
+			$('#message_block').html(html);
+			$('#table_body').fadeIn('slow');
 		}else{
-			alert('Dados corretos, prossiga com envio')
+
+			html =  '<div class="alert alert-success">' +
+							 '<strong>SUCESSO! </strong>'+lines.length+' registros encontrados' +
+							'</div>'
+			$('#submit-parse').removeClass('btn-primary')
+			$('#submit-parse').addClass('btn-success')
 			$('#submit-parse').val('Cadastrar '+lines.length+' usuários')
 			verified = true;
-			$('#sendbutton').fadeIn('slow');
+			$('#message_block').html(html);
 		}
 	}
 
 	//Valida os campos dos items preenchidos...
 	function checkThisItem(item){
+		console.log(item)
+		var localError = errors;
 		//cidade é obrigatorio
 		if (item['Cidade'] == undefined || item['Cidade'] == '') {
 			errors += 1;
 			item['Cidade'] = '<b style="color:red">* Não informada *</b>'
 		}
 
-		//Estado também é obrigatorio
-		if (item['Estado'] == undefined || item['Estado'] == '') {
+		cpf = item['Cpf'];
+		if(cpf == undefined || cpf == ''){
+			item['Cpf'] = '<b style="color:red">* Obrigatório *</b>'
+		}else if (!validaCPF(cpf)){
 			errors += 1;
-			item['Estado'] = '<b style="color:red">* Não informada *</b>'
+			item['Cpf'] = '<b style="color:red">* '+ item['Cpf']+' *</b>'
 		}
 
 		//Checa se há mais que duas ocorrencias do identificador
@@ -42,21 +62,24 @@ $(document).ready(function(){
 			errors += 1;
 			item['Identificador'] = "<b style=\"color: red\"> Duplicidade: "+item['Identificador']+"</b>"
 		}
+
+		if(localError != errors){
+			item['Error'] = true;
+		}
 		return item
 	}
 
 	function buildHtml(item){
-		return "<tr>"+
-							"<th>"+item['Nome']+" </th>"+
-							"<th>"+item['E-mail']+"</th>"+
-							"<th>"+item['Telefone']+"</th>"+
-							"<th>"+item['Cidade']+"</th>"+
-							"<th>"+item['Estado']+"</th>"+
-							"<th>"+item['Bairro']+"</th>"+
-							"<th>"+item['Complemento']+"</th>"+
-							"<th>"+item['Telefone']+"</th>"+
-							"<th>"+item['Celular']+"</th>"+
-							"<th>"+item['Identificador']+"</th>"+
+		var clas = item['Error'] ? 'danger' : ''
+
+		return "<tr class='" + clas +"'>"+
+							"<td class='"+clas+"'>"+item['Index']+" </td>" +
+							"<td class='"+clas+"'>"+item['Nome']+" </td>"+
+							"<td class='"+clas+"'>"+item['Cpf']+"</td>" +
+							"<td class='"+clas+"'>"+item['E-mail']+"</td>"+
+							"<td class='"+clas+"'>"+item['Cep']+"</td>"+
+							"<td class='"+clas+"'>"+item['Cidade']+"</td>"+
+							"<td class='"+clas+"'>"+item['Identificador']+"</td>"+
 						"</tr>"
 	}
 

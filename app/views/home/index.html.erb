@@ -1,31 +1,64 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+    <% flash.each do |type, message| %>
+      <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        <%= message %>
+      </div>
+      <% end %>
+    </div>
 
+    <div class="col-md-12 mt-10" style="text-align:center;">
+      <h2>Enviar lote de usuários</h2>
+      <small>
+        <a href="/example_file.csv">Arquivo de exemplo</a>
+      </small>
+      <%= form_tag home_batch_process_path,id: 'form_file', multipart: true do %>
+        <div class="p-2">
+          <label class="custom-file">
+            <input type="file" name="file" id="files" class="custom-file-input">
+            <span class="custom-file-control">Selecionar um arquivo...</span>
+          </label>
+        </div>
+        <div>
+        </div>
+        <div class="p-2">
+          <input type="submit" id="submit-parse" class="btn btn-primary" value="Realizar verificação" />
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 mx-auto" id="message_block">
+      
+    </div>
+  </div>
+  <div class="row" id="table_body">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>E-amil</th>
+              <th>CEP</th>
+              <th>Cidade</th>
+              <th>Identificador</th>
+            </tr>
+          </thead>
+          <tbody id="tbody_result_table">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h2>Usuários cadastrados <%= @total%></h2>
-
-<h2>Importar Usuários</h2>
-<%= form_tag home_batch_process_path,id: 'form_file', multipart: true do %>
-  <input type="file" name="file" id="files" multiple>
-  <input type="submit" id="submit-parse" value="Realizar verificação...">
-<% end %>
-
-<hr >
-<table border="1">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>E-mail</th>
-      <th>Telefone</th>
-      <th>Cidade</th>
-      <th>Estado</th>
-      <th>Bairro</th>
-      <th>Complemento</th>
-      <th>Telefone</th>
-      <th>Celular</th>
-      <th>Identificador</th>
-    </tr>
-  </thead>
-
-  <tbody id="tbody_result_table">
-  </tbody>
-
-</table>
+<footer style="position: fixed;bottom: 0;">
+  <div class="col-md-12">
+    <p> <strong>Usuários: </strong> <%= @total%> </p>
+  </div>
+</footer>
